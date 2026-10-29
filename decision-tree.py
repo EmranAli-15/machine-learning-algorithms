@@ -71,10 +71,37 @@ class Tree:
 
         # calculating available features entropy
         #---------------------------------------
+        
+        new_total_data = 0
+        for data in training_data:
+            if data[4] == 0:
+                new_total_data+=1
+
+        features_gain = {}
 
         for key, value in parameter.items():
-            pass
+            entropy = 0
+            
+            for feature in value["features"]:
+                feature_yes = 0
+                feature_no = 0
+                
+                for data in training_data:
+                    if data[value["index"]] == feature and data[3] == "yes" and data[4] == 0:
+                        feature_yes+=1
+                    elif data[value["index"]] == feature and data[3] == "no" and data[4] == 0:
+                        feature_no+=1
+                print(feature_yes, feature_no)
+                
+                # calculating entropy with individual feature -- facing issue here
+                ####
+                ####
+                ####
+                entropy += ((feature_yes+feature_no)/new_total_data) * (-((feature_yes/(feature_yes+feature_no))*math.log2(feature_yes/(feature_yes+feature_no)))-((feature_no/(feature_yes+feature_no))*math.log2(feature_no/(feature_yes+feature_no))))
 
+            features_gain[key] = parent_entropy-entropy
+
+        print(features_gain)
         # calculating available features entropy
         #---------------------------------------
 
